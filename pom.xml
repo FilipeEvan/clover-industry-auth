@@ -14,7 +14,7 @@
 	<name>clover-industry-auth</name>
 	<description>API REST da Indústria Trevo S.A.</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
