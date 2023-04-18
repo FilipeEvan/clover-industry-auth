@@ -1,0 +1,230 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AccessLevelController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.jacto.cloverindustryauth.controller.accesslevel</a>
+</div>
+
+<h1>Coverage Summary for Class: AccessLevelController (br.com.jacto.cloverindustryauth.controller.accesslevel)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AccessLevelController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AccessLevelController$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.jacto.cloverindustryauth.controller.accesslevel;
+&nbsp;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.accesslevel.AccessLevelRequestDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.accesslevel.AccessLevelResponseDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserCreateRequestDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserDetailResponseDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserListResponseDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserUpdateRequestDto;
+&nbsp;import br.com.jacto.cloverindustryauth.service.accesslevel.AccessLevelService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.access.prepost.PreAuthorize;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;access-levels&quot;)
+&nbsp;@SecurityRequirement(name = &quot;bearer-key&quot;)
+&nbsp;@PreAuthorize(&quot;hasAuthority(&#39;ADMIN&#39;)&quot;)
+<b class="fc">&nbsp;public class AccessLevelController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private AccessLevelService accessLevelService;
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    @Transactional
+&nbsp;    @Operation(summary = &quot;Criar um novo nível de acesso&quot;,
+&nbsp;            description = &quot;Cria um novo nível de acesso com base nas informação fornecida.&quot;,
+&nbsp;            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;                    content = @Content(
+&nbsp;                            mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = AccessLevelRequestDto.class)
+&nbsp;                    )
+&nbsp;            ),
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;201&quot;,
+&nbsp;                            description = &quot;Nível de acesso criado com sucesso&quot;,
+&nbsp;                            content = @Content(
+&nbsp;                                    mediaType = &quot;application/json&quot;,
+&nbsp;                                    schema = @Schema(implementation = AccessLevelResponseDto.class)
+&nbsp;                            )
+&nbsp;                    )
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity postAccessLevel(@RequestBody @Valid AccessLevelRequestDto dto) {
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED)</b>
+<b class="fc">&nbsp;                .body(accessLevelService.postAccessLevel(dto));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    @Operation(summary = &quot;Retornar todos os níveis de acesso&quot;,
+&nbsp;            description = &quot;Retorna uma lista paginada de todos os níveis de acesso cadastrados.&quot;,
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;200&quot;,
+&nbsp;                            description = &quot;Lista de níveis de acesso retornada com sucesso&quot;,
+&nbsp;                            content = @Content(
+&nbsp;                                    mediaType = &quot;application/json&quot;,
+&nbsp;                                    schema = @Schema(implementation = AccessLevelResponseDto.class)
+&nbsp;                            )
+&nbsp;                    )
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity&lt;Page&lt;AccessLevelResponseDto&gt;&gt; getAllAccessLevels(Pageable pageable) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(accessLevelService.getAllAccessLevels(pageable));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(&quot;/{id}&quot;)
+&nbsp;    @Transactional
+&nbsp;    @Operation(summary = &quot;Atualizar um nível de acesso pelo ID&quot;,
+&nbsp;            description = &quot;Atualiza um nível de acesso com base no ID fornecido e na informação fornecida.&quot;,
+&nbsp;            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;                    content = @Content(
+&nbsp;                            mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = AccessLevelRequestDto.class)
+&nbsp;                    )
+&nbsp;            ),
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;200&quot;,
+&nbsp;                            description = &quot;Nível de acesso atualizado com sucesso&quot;,
+&nbsp;                            content = @Content(
+&nbsp;                                    mediaType = &quot;application/json&quot;,
+&nbsp;                                    schema = @Schema(implementation = AccessLevelResponseDto.class)
+&nbsp;                            )
+&nbsp;                    ),
+&nbsp;                    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Nível de acesso não encontrado&quot;)
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity putAccessLevelById(@PathVariable UUID id,
+&nbsp;                                         @RequestBody @Valid AccessLevelRequestDto dto) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(accessLevelService.putAccessLevelById(id, dto));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    @Transactional
+&nbsp;    @Operation(summary = &quot;Excluir um nível de acesso pelo ID&quot;,
+&nbsp;            description = &quot;Exclui um nível de acesso com base no ID fornecido.&quot;,
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;204&quot;, description = &quot;Nível de acesso excluído com sucesso&quot;),
+&nbsp;                    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Nível de acesso não encontrado&quot;)
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity deleteAccessLevelById(@PathVariable UUID id) {
+<b class="fc">&nbsp;        accessLevelService.deleteAccessLevelById(id);</b>
+<b class="fc">&nbsp;        return ResponseEntity.noContent().build();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 10:28</div>
+</div>
+</body>
+</html>

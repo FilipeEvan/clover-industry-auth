@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UserController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.jacto.cloverindustryauth.controller.user</a>
+</div>
+
+<h1>Coverage Summary for Class: UserController (br.com.jacto.cloverindustryauth.controller.user)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UserController$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.jacto.cloverindustryauth.controller.user;
+&nbsp;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.auth.AuthRequestDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserCreateRequestDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserDetailResponseDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserListResponseDto;
+&nbsp;import br.com.jacto.cloverindustryauth.dto.user.UserUpdateRequestDto;
+&nbsp;import br.com.jacto.cloverindustryauth.infra.security.JWTTokenDto;
+&nbsp;import br.com.jacto.cloverindustryauth.service.user.UserService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.access.annotation.Secured;
+&nbsp;import org.springframework.security.access.prepost.PreAuthorize;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;users&quot;)
+&nbsp;@SecurityRequirement(name = &quot;bearer-key&quot;)
+&nbsp;@PreAuthorize(&quot;hasAuthority(&#39;ADMIN&#39;)&quot;)
+<b class="fc">&nbsp;public class UserController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private UserService userService;
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    @Transactional
+&nbsp;    @Operation(summary = &quot;Criar um novo usuário&quot;,
+&nbsp;            description = &quot;Cria um novo usuário com base nas informações fornecidas.&quot;,
+&nbsp;            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;                    content = @Content(
+&nbsp;                            mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = UserCreateRequestDto.class)
+&nbsp;                    )
+&nbsp;            ),
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;201&quot;,
+&nbsp;                            description = &quot;Usuário criado com sucesso&quot;,
+&nbsp;                            content = @Content(
+&nbsp;                                    mediaType = &quot;application/json&quot;,
+&nbsp;                                    schema = @Schema(implementation = UserDetailResponseDto.class)
+&nbsp;                            )
+&nbsp;                    )
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity postUser(@RequestBody @Valid UserCreateRequestDto dto) {
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED)</b>
+<b class="fc">&nbsp;                .body(userService.postUser(dto));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    @Operation(summary = &quot;Retornar todos os usuários&quot;,
+&nbsp;            description = &quot;Retorna uma lista paginada de todos os usuários cadastrados.&quot;,
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;200&quot;,
+&nbsp;                            description = &quot;Lista de usuários retornada com sucesso&quot;,
+&nbsp;                            content = @Content(
+&nbsp;                                    mediaType = &quot;application/json&quot;,
+&nbsp;                                    schema = @Schema(implementation = UserListResponseDto.class)
+&nbsp;                            )
+&nbsp;                    )
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity&lt;Page&lt;UserListResponseDto&gt;&gt; getAllUsers(Pageable pageable) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(userService.getAllUsers(pageable));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Retornar um usuário pelo ID&quot;,
+&nbsp;            description = &quot;Retorna um usuário com base no ID fornecido.&quot;,
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;200&quot;,
+&nbsp;                            description = &quot;Usuário retornado com sucesso&quot;,
+&nbsp;                            content = @Content(
+&nbsp;                                    mediaType = &quot;application/json&quot;,
+&nbsp;                                    schema = @Schema(implementation = UserDetailResponseDto.class)
+&nbsp;                            )
+&nbsp;                    ),
+&nbsp;                    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Usuário não encontrado&quot;)
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity getUserById(@PathVariable UUID id) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(userService.getUserById(id));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(&quot;/{id}&quot;)
+&nbsp;    @Transactional
+&nbsp;    @Operation(summary = &quot;Atualizar um usuário pelo ID&quot;,
+&nbsp;            description = &quot;Atualiza um usuário com base no ID fornecido e nas informações fornecidas.&quot;,
+&nbsp;            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;            content = @Content(
+&nbsp;                    mediaType = &quot;application/json&quot;,
+&nbsp;                    schema = @Schema(implementation = UserUpdateRequestDto.class)
+&nbsp;            )
+&nbsp;    ),
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;200&quot;,
+&nbsp;                            description = &quot;Usuário atualizado com sucesso&quot;,
+&nbsp;                            content = @Content(
+&nbsp;                                    mediaType = &quot;application/json&quot;,
+&nbsp;                                    schema = @Schema(implementation = UserDetailResponseDto.class)
+&nbsp;                            )
+&nbsp;                    ),
+&nbsp;                    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Usuário não encontrado&quot;)
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity putUserById(@PathVariable UUID id,
+&nbsp;                                         @RequestBody @Valid UserUpdateRequestDto dto) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(userService.putUserById(id, dto));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    @Transactional
+&nbsp;    @Operation(summary = &quot;Excluir um usuário pelo ID&quot;,
+&nbsp;            description = &quot;Exclui um usuário com base no ID fornecido.&quot;,
+&nbsp;            responses = {
+&nbsp;                    @ApiResponse(responseCode = &quot;204&quot;, description = &quot;Usuário excluído com sucesso&quot;),
+&nbsp;                    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Usuário não encontrado&quot;)
+&nbsp;            }
+&nbsp;    )
+&nbsp;    public ResponseEntity deleteUserById(@PathVariable UUID id) {
+<b class="fc">&nbsp;        userService.deleteUserById(id);</b>
+<b class="fc">&nbsp;        return ResponseEntity.noContent().build();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 10:28</div>
+</div>
+</body>
+</html>
