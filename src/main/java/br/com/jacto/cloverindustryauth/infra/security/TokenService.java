@@ -1,11 +1,14 @@
 package br.com.jacto.cloverindustryauth.infra.security;
 
-import br.com.jacto.cloverindustryauth.model.user.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import br.com.jacto.cloverindustryauth.model.user.User;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -42,12 +45,15 @@ public class TokenService {
                     .verify(tokenJWT)
                     .getSubject();
         } catch (JWTVerificationException exception) {
+            exception.printStackTrace();
+
             throw new RuntimeException("Token JWT inválido ou expirado!");
         }
     }
 
     private Instant expirationDate() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusSeconds(30).toInstant(ZoneOffset.of("-03:00"));
+//        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
 
 }

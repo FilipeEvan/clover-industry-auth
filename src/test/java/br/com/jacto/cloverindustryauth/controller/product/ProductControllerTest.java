@@ -127,7 +127,6 @@ class ProductControllerTest {
         when(productService.getAllProducts(any(Pageable.class)))
                 .thenReturn(responseDtoPage);
 
-        // Act and Assert
         mvc.perform(get("/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("page", "0")
