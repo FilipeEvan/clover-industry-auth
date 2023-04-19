@@ -28,10 +28,18 @@ e exclusão dos produtos da empresa pelos seus colaboradores e administradores.
 ## Documentação
 
 A documentação da API pode ser encontrada no Swagger, que só estará acessível enquanto o servidor estiver em execução. 
-Para acessá-la, copie o link abaixo e cole no navegador:
+Para acessá-la, copie o link abaixo e cole em um navegador:
 
 ```
   http://localhost:8080/swagger-ui/index.html
+```
+
+## Deploy
+
+A automação do deploy foi feita aplicando-se CI/CD por meio do Jenkins. Para observá-la, copie o link abaixo e cole em um navegador:
+
+```
+  http://localhost:1010
 ```
 
 ## Acesso ao Trello
